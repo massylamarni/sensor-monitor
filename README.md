@@ -70,3 +70,7 @@ Accepts optional query parameters to filter by time range:
 ```
 
 ---
+
+## Related
+
+[sensor-monitor-vanillajs](https://github.com/massylamarni/sensor-monitor-vanillajs) - A lightweight, dependency-free build of sensor-monitor designed to run directly on a microcontroller. 
