@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# sensor-monitor
+
+A web application that acts as the server-side companion for a microcontroller HTTP client. The microcontroller's HTTP server sends JSON payloads to the appropriate route. Next.js API routes validate and write the data to MongoDB. The frontend polls those same routes at a user-controlled frequency and renders the current value plus historical charts.
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- A MongoDB database (local or [MongoDB Atlas](https://www.mongodb.com/atlas))
+
+### Installation
+
+```bash
+git clone https://github.com/massylamarni/sensor-monitor.git
+cd sensor-monitor
+npm install
+```
+
+### Configuration
+
+Create a `.env.local` file at the project root:
+
+```env
+MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/?retryWrites=true&w=majority
+```
+
+### Running locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## API Routes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### `POST /api/post/ping`
 
-## Learn More
+```json
+{ "ping": "message" }
+```
 
-To learn more about Next.js, take a look at the following resources:
+### `POST /api/post/temperature` · `POST /api/post/gas`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```json
+{ "data": "value" }
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### `POST /api/post/movement`
 
-## Deploy on Vercel
+```json
+{ "data": "0 || 1" }
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### `POST /api/post/rfid`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```json
+{ "data": { "uid": "uid", "is_valid": "1 || 0" } }
+```
+
+### `GET /api/get/{temperature|gas|movement|rfid}`
+
+Accepts optional query parameters to filter by time range:
+
+```
+?timeStart=<timestamp>&timeEnd=<timestamp>
+```
+
+---
