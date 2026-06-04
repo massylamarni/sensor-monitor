@@ -46,19 +46,19 @@ npm run dev
 ### `POST /api/temperature` · `POST /api/gas`
 
 ```json
-{ "data": "value" }
+{ "value": "value" }
 ```
 
 ### `POST /api/movement`
 
 ```json
-{ "data": "0 || 1" }
+{ "value": "0 || 1" }
 ```
 
 ### `POST /api/rfid`
 
 ```json
-{ "data": { "uid": "uid", "is_valid": "1 || 0" } }
+{ "value": { "uid": "uid", "is_valid": "1 || 0" } }
 ```
 
 ### `GET /api/{temperature|gas|movement|rfid}`
