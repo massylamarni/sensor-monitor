@@ -6,7 +6,7 @@ export function getChartData(dataArray: SensorDataEntry[]): ChartPoint[] {
   return dataArray.map(entry => {
     const stateObject = getStateObjectData(entry.value);
     return {
-      x: new Date(entry.createdAt),
+      x: new Date(entry.createdAt).getMilliseconds(),
       y: stateObject ? (stateObject.state ? 1 : 0) : parseFloat(entry.value),
     };
   });
@@ -70,7 +70,7 @@ export function getAverageChartData(chartData: ChartPoint[], chartTimeRange: Cha
   let timeSum = 0, valueSum = 0, count = 0;
 
   for (let i = 1; i < chartData.length - 1; i++) {
-    const gap = (chartData[i].x as Date).getTime() - (chartData[i - 1].x as Date).getTime();
+    const gap = chartData[i].x - chartData[i - 1].x;
     count++;
     if (gap < maxGap && timeSum < maxGap) {
       timeSum += gap;
@@ -93,8 +93,8 @@ export function getGroupedChartData(chartData: ChartPoint[], chartTimeRange: Cha
   let timeSum = 0, chunkPositive = false, chunkStart = 0;
 
   for (let i = 1; i < chartData.length - 1; i++) {
-    if (chunkStart === 0) chunkStart = (chartData[i].x as Date).getTime();
-    const gap = (chartData[i].x as Date).getTime() - (chartData[i - 1].x as Date).getTime();
+    if (chunkStart === 0) chunkStart = chartData[i].x;
+    const gap = chartData[i].x - chartData[i - 1].x;
 
     if (gap < maxGap && timeSum < maxGap) {
       timeSum += gap;

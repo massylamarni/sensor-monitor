@@ -4,7 +4,7 @@ import clientPromise from "@/lib/mongodb";
 const ALLOWED_COLLECTIONS = new Set(["gas", "movement", "temperature", "rfid"] as const);
 type AllowedCollection = typeof ALLOWED_COLLECTIONS extends Set<infer T> ? T : never;
 
-type RouteContext = { params: { collection: string } };
+type RouteContext = { params: Promise<{ collection: string }> };
 
 function isAllowed(c: string): c is AllowedCollection {
   return ALLOWED_COLLECTIONS.has(c as AllowedCollection);
