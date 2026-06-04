@@ -37,31 +37,31 @@ npm run dev
 
 ## API Routes
 
-### `POST /api/post/ping`
+### `POST /api/ping`
 
 ```json
 { "ping": "message" }
 ```
 
-### `POST /api/post/temperature` · `POST /api/post/gas`
+### `POST /api/temperature` · `POST /api/gas`
 
 ```json
 { "data": "value" }
 ```
 
-### `POST /api/post/movement`
+### `POST /api/movement`
 
 ```json
 { "data": "0 || 1" }
 ```
 
-### `POST /api/post/rfid`
+### `POST /api/rfid`
 
 ```json
 { "data": { "uid": "uid", "is_valid": "1 || 0" } }
 ```
 
-### `GET /api/get/{temperature|gas|movement|rfid}`
+### `GET /api/{temperature|gas|movement|rfid}`
 
 Accepts optional query parameters to filter by time range:
 

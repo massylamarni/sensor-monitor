@@ -28,7 +28,7 @@ async function getCollection(name: string) {
 }
 
 export async function GET(req: Request, { params }: RouteContext) {
-  const { collection } = params;
+  const { collection } = await params;
   if (!isAllowed(collection)) {
     return NextResponse.json({ error: "Invalid collection" }, { status: 400 });
   }
@@ -53,7 +53,7 @@ export async function GET(req: Request, { params }: RouteContext) {
 }
 
 export async function POST(req: Request, { params }: RouteContext) {
-  const { collection } = params;
+  const { collection } = await params;
   if (!isAllowed(collection)) {
     return NextResponse.json({ error: "Invalid collection" }, { status: 400 });
   }

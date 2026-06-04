@@ -1,17 +1,22 @@
 'use client'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SENSORS, DEFAULT_REFRESH_RATE } from '@/config/sensors';
 import SensorDisplayData from './_components/sensor-display-data';
 import SensorDisplayChart from './_components/sensor-display-chart';
 import SensorSettingSlider from './_components/sensor-setting-slider';
 import SensorDisplayTable from './_components/sensor-display-table';
+import { startSimulation } from '@/script/simulator';
 
 export default function Home() {
   const [refreshRate, setRefreshRate] = useState(DEFAULT_REFRESH_RATE);
   const [selectedSensorId, setSelectedSensorId] = useState(SENSORS[0].id);
 
   const activeSensor = SENSORS.find(s => s.id === selectedSensorId) ?? SENSORS[0];
+
+  useEffect(() => {
+    startSimulation();
+  }, []);
 
   return (
     <div className='sensors-display-layout'>
