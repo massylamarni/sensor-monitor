@@ -1,7 +1,13 @@
 import type { SensorDataEntry, StateObjectData } from '@/types/sensor';
 
 export function checkStruct(rawDataArray: unknown): rawDataArray is SensorDataEntry[] {
-  return Array.isArray(rawDataArray) && rawDataArray.length > 0 && rawDataArray[0] != null;
+  return (
+    Array.isArray(rawDataArray) &&
+    rawDataArray.length > 0 &&
+    rawDataArray.every(
+      (x) => x != null && typeof x === "object" && "data" in x && x.data != null
+    )
+  );
 }
 
 // Parses a raw data value that may be a plain scalar or a JSON object with a state key

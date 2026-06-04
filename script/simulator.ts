@@ -17,14 +17,27 @@ const tick = async () => {
   try {
     await Promise.all([
       post("/api/temperature", {
-        value: (20 + Math.random() * 10).toFixed(2),
+        data: {
+          value: (20 + Math.random() * 10).toFixed(2),
+          state: null
+        },
       }),
-      post("/api/gas", { value: randomInt(200, 800) }),
-      post("/api/movement", { value: String(randomInt(0, 1)) }),
+      post("/api/gas", {
+        data: {
+          value: randomInt(200, 800),
+          state: null
+        }
+      }),
+      post("/api/movement", {
+        data: {
+          value: 0,
+          state: String(randomInt(0, 1))
+        }
+      }),
       post("/api/rfid", {
-        value: {
-          uid: ["A1B2C3", "D4E5F6"][randomInt(0, 1)],
-          is_valid: String(randomInt(0, 1)),
+        data: {
+          value: ["A1B2C3", "D4E5F6"][randomInt(0, 1)],
+          state: String(randomInt(0, 1)),
         },
       }),
     ]);

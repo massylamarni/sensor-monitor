@@ -10,7 +10,7 @@ interface Props {
   refreshRate: number;
 }
 
-const DEFAULT_ROW: SensorDataEntry = { value: 'Unknown', createdAt: 'Unknown' };
+const DEFAULT_ROW: SensorDataEntry = { data: {value: 'Unknown', state: 'Unknown'}, createdAt: 'Unknown' };
 const ROW_COUNT = 6;
 const DEFAULT_DATA = Array.from({ length: ROW_COUNT }, () => DEFAULT_ROW);
 

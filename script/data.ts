@@ -4,10 +4,10 @@ import { checkStruct, getStateObjectData } from './utils';
 // [{"data": "value", "createdAt": "timeString"}] → [{"x": Date, "y": number}]
 export function getChartData(dataArray: SensorDataEntry[]): ChartPoint[] {
   return dataArray.map(entry => {
-    const stateObject = getStateObjectData(entry.value);
+    const stateObject = getStateObjectData(entry.data.state);
     return {
       x: new Date(entry.createdAt).getMilliseconds(),
-      y: stateObject ? (stateObject.state ? 1 : 0) : parseFloat(entry.value),
+      y: stateObject ? (stateObject.state ? 1 : 0) : parseFloat(entry.data.value),
     };
   });
 }
@@ -23,8 +23,8 @@ export function getMissingData(
   const delayedEnd = new Date(chartTimeRange.end.getTime() - DELAY);
 
   const defaultFill: SensorDataEntry[] = [
-    { value: PREDICTED_VALUE, createdAt: chartTimeRange.start.toString() },
-    { value: PREDICTED_VALUE, createdAt: chartTimeRange.end.toString() },
+    { data: { value: PREDICTED_VALUE, state: null }, createdAt: chartTimeRange.start.toString() },
+    { data: { value: PREDICTED_VALUE, state: null }, createdAt: chartTimeRange.end.toString() },
   ];
 
   const missing = { before: [] as SensorDataEntry[], after: [] as SensorDataEntry[] };
@@ -41,17 +41,17 @@ export function getMissingData(
 
   if (!startsOnTime) {
     missing.before = [
-      { value: PREDICTED_VALUE, createdAt: chartTimeRange.start.toString() },
-      { value: PREDICTED_VALUE, createdAt: new Date(dataStart.getTime() - padding).toString() },
-      { value: dataArray[0].value, createdAt: dataStart.toString() },
+      { data: { value: PREDICTED_VALUE, state: null }, createdAt: chartTimeRange.start.toString() },
+      { data: { value: PREDICTED_VALUE, state: null }, createdAt: new Date(dataStart.getTime() - padding).toString() },
+      { data: dataArray[0].data, createdAt: dataStart.toString() },
     ];
   }
 
   if (!endsOnTime) {
     missing.after = [
-      { value: dataArray.at(-1)!.value, createdAt: dataEnd.toString() },
-      { value: PREDICTED_VALUE, createdAt: new Date(dataEnd.getTime() + padding).toString() },
-      { value: PREDICTED_VALUE, createdAt: chartTimeRange.end.toString() },
+      { data: dataArray.at(-1)!.data, createdAt: dataEnd.toString() },
+      { data: { value: PREDICTED_VALUE, state: null }, createdAt: new Date(dataEnd.getTime() + padding).toString() },
+      { data: { value: PREDICTED_VALUE, state: null }, createdAt: chartTimeRange.end.toString() },
     ];
   }
 

@@ -39,7 +39,10 @@ export type SensorConfig = DataSensorConfig | StateSensorConfig;
 /* */
 
 export interface SensorDataEntry {
-  value: string;
+  data: {
+    value: string,
+    state: string | null,
+  };
   createdAt: string;
 }
 

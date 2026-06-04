@@ -83,7 +83,6 @@ export default function SensorDisplayData({ sensor, refreshRate, setSelectedSens
     ? getDataSensorDisplay(data, chartTimeRange)
     : getStateSensorDisplay(data, true, chartTimeRange);
 
-
   const isUnknown = displayData.sensorType === 'state' && displayData.state === '-1';
 
   // Derived display values

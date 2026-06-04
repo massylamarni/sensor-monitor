@@ -55,7 +55,7 @@ export default function SensorDisplayTableRow({ tableRowData }: Props) {
         {isData && (
           <div>
             <div className="sensor-display-table-row-title">
-              <div>{data.value}</div>
+              <div>{data.data.value}</div>
               <div>{info.info.unit}</div>
             </div>
             <div className="sensor-display-table-row-subtitle">
