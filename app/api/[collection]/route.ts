@@ -61,7 +61,7 @@ export async function POST(req: Request, { params }: RouteContext) {
   try {
     const body = await req.json();
     const col = await getCollection(collection);
-    const result = await col.insertOne({ data: body.value, createdAt: new Date() });
+    const result = await col.insertOne({ data: { ...body.data }, createdAt: new Date() });
 
     return NextResponse.json({ captureId: result.insertedId }, { status: 201 });
   } catch {

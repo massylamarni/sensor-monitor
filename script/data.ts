@@ -5,6 +5,11 @@ import { checkStruct, getStateObjectData } from './utils';
 export function getChartData(dataArray: SensorDataEntry[]): ChartPoint[] {
   return dataArray.map(entry => {
     const stateObject = getStateObjectData(entry.data.state);
+    console.log(dataArray);
+    console.log({
+      x: new Date(entry.createdAt).getMilliseconds(),
+      y: stateObject ? (stateObject.state ? 1 : 0) : parseFloat(entry.data.value),
+    });
     return {
       x: new Date(entry.createdAt).getMilliseconds(),
       y: stateObject ? (stateObject.state ? 1 : 0) : parseFloat(entry.data.value),
