@@ -88,23 +88,44 @@ export function getAverageChartData(chartData: ChartPoint[], chartTimeRange: Cha
 // Reduces dense state chart data to grouped boolean chunks across the time range
 export function getGroupedChartData(chartData: ChartPoint[], chartTimeRange: ChartTimeRange): ChartPoint[] {
   if (chartData.length < 2) return chartData;
-  const maxGap = (chartTimeRange.end.getTime() - chartTimeRange.start.getTime()) / 1500;
-  const result: ChartPoint[] = [chartData[0]];
-  let timeSum = 0, chunkPositive = false, chunkStart = 0;
 
-  for (let i = 1; i < chartData.length - 1; i++) {
-    if (chunkStart === 0) chunkStart = chartData[i].x;
-    const gap = chartData[i].x - chartData[i - 1].x;
+  const rangeMs = chartTimeRange.end.getTime() - chartTimeRange.start.getTime();
+  const maxGap = rangeMs / 1500;
 
-    if (gap < maxGap && timeSum < maxGap) {
-      timeSum += gap;
-      chunkPositive = chunkPositive || chartData[i].y === 1;
-    } else {
+  const result: ChartPoint[] = [];
+
+  let chunkStart: number | null = null;
+  let chunkEnd: number = 0;
+  let chunkPositive = false;
+
+  for (let i = 0; i < chartData.length; i++) {
+    const point = chartData[i];
+    const nextPoint = chartData[i + 1];
+
+    if (chunkStart === null) {
+      chunkStart = point.x;
+    }
+
+    chunkEnd = point.x;
+    chunkPositive = chunkPositive || point.y === 1;
+
+    const gapToNext = nextPoint ? nextPoint.x - point.x : Infinity;
+
+    if (gapToNext > maxGap || !nextPoint) {
+      // Emit rising edge
       result.push({ x: chunkStart, y: chunkPositive ? 1 : 0 });
-      timeSum = 0; chunkPositive = false; chunkStart = 0;
+      // Emit falling edge (so the shape is a flat top, not a spike)
+      if (chunkEnd !== chunkStart) {
+        result.push({ x: chunkEnd, y: chunkPositive ? 1 : 0 });
+      }
+      // Emit a zero to close the step
+      result.push({ x: chunkEnd, y: 0 });
+
+      chunkStart = null;
+      chunkEnd = 0;
+      chunkPositive = false;
     }
   }
 
-  result.push(chartData.at(-1)!);
   return result;
 }
