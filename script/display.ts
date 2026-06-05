@@ -29,8 +29,6 @@ export function getDataSensorDisplay(
   timeRange: ChartTimeRange
 ): DataSensorDisplay {
   if (!checkStruct(data)) return { sensorType: 'data', value: 'Unknown', peaks: { min: 'Unknown', max: 'Unknown' } };
-  console.log("here");
-  console.log(data);
   const hasGapAfter = checkStruct(getMissingData(data, timeRange).after);
   return {
     sensorType: 'data',
@@ -50,7 +48,7 @@ export function getStateSensorDisplay(
     ? checkStruct(getMissingData(state, timeRange).after)
     : false;
 
-  const stateObject = getStateObjectData(state.at(-1)!.data.value);
+  const stateObject = getStateObjectData(state.at(-1)!);
 
   if (stateObject) {
     return {

@@ -33,23 +33,12 @@ export default function SensorDisplayTableRow({ tableRowData }: Props) {
           <div>
             <div className="sensor-display-table-row-title">
               <div>{stateLabel}</div>
-              <div></div>
+              <div>{` [ ${displayStateData.value && displayStateData.value} ]`}</div>
             </div>
             <div className="sensor-display-table-row-subtitle">
               {info.info.dataType}
             </div>
           </div>
-
-          {typeof displayStateData.value !== 'boolean' && displayStateData.value !== 'Unknown' && (
-            <div>
-              <div className="sensor-display-table-row-title">
-                <div>{displayStateData.value}</div>
-              </div>
-              <div className="sensor-display-table-row-subtitle">
-                {info.info.dataType}
-              </div>
-            </div>
-          )}
         </>}
 
         {isData && (

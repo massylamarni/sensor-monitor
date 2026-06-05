@@ -70,7 +70,7 @@ export default function SensorDisplayChart({ sensor, refreshRate }: Props) {
   // Fetch when time range changes
   useEffect(() => {
     fetchRawDataArray(sensor.endpoint.url, setData, chartTimeRange);
-  }, [chartTimeRange]);
+  }, [chartTimeRange, sensor]);
 
   // Update chart when data arrives
   useEffect(() => {

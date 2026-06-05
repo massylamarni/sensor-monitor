@@ -10,7 +10,6 @@ export function checkStruct(rawDataArray: unknown): rawDataArray is SensorDataEn
   );
 }
 
-// Parses a raw data value that may be a plain scalar or a JSON object with a state key
 export function getStateObjectData(entry: SensorDataEntry): StateObjectData | false {
   if (!entry.data.state) return false;
   return {

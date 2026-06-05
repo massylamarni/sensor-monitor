@@ -6,7 +6,7 @@ export function getChartData(dataArray: SensorDataEntry[]): ChartPoint[] {
   return dataArray.map(entry => {
     const stateObject = getStateObjectData(entry);
     return {
-      x: new Date(entry.createdAt).getMilliseconds(),
+      x: new Date(entry.createdAt).getTime(),
       y: stateObject ? (stateObject.state ? 1 : 0) : parseFloat(entry.data.value),
     };
   });

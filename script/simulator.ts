@@ -30,7 +30,7 @@ const tick = async () => {
       }),
       post("/api/movement", {
         data: {
-          value: 0,
+          value: null,
           state: String(randomInt(0, 1))
         }
       }),
